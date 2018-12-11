@@ -16,7 +16,10 @@
  */
 package org.superbiz.moviefun;
 
-import javax.ejb.Stateless;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -24,16 +27,18 @@ import javax.persistence.criteria.*;
 import javax.persistence.metamodel.EntityType;
 import java.util.List;
 
-@Stateless
+@Repository
 public class MoviesBean {
 
-    @PersistenceContext(unitName = "movie-unit")
+    //@PersistenceContext(unitName = "movie-unit")
+    @PersistenceContext
     private EntityManager entityManager;
 
     public Movie find(Long id) {
         return entityManager.find(Movie.class, id);
     }
 
+    @Transactional
     public void addMovie(Movie movie) {
         entityManager.persist(movie);
     }
@@ -46,6 +51,7 @@ public class MoviesBean {
         entityManager.remove(movie);
     }
 
+    @Transactional
     public void deleteMovieId(long id) {
         Movie movie = entityManager.find(Movie.class, id);
         deleteMovie(movie);
@@ -109,3 +115,6 @@ public class MoviesBean {
         entityManager.createQuery("delete from Movie").executeUpdate();
     }
 }
+
+
+
