@@ -1,0 +1,14 @@
+applications:
+- name: moviefun
+  buildpacks:
+  - java_buildpack
+  disk_quota: 1G
+  path: target/moviefun.war
+  instances: 1
+  memory: 1G
+  routes:
+  - route: moviefun-courteous-panda.cfapps.io
+  services:
+  - movies-mysql
+  - albums-mysql
+  stack: cflinuxfs2
